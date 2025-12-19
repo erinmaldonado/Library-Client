@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Authors</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    @if (authors$ | async; as authors) {
+      <table mat-table [dataSource]="authors" class="mat-elevation-z2">
+        
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let author">
+            <a [routerLink]="['/authors', author.id]">{{author.id}}</a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let author">{{author.name}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    }
+    @else {
+      <p>Loading...</p>
+    }
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,9 @@
+<div class="home-container">
+  @if (isAuthenticated) {
+    <h1>Welcome!</h1>
+  } @else {
+    <h1>Welcome!</h1>
+    <p class="welcome-message">You are not logged in.</p>
+    <p>Please <a [routerLink]="['/login']">log in</a> to access your book collection.</p>
+  }
+</div>

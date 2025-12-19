@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [routerLink]="['/home']">
+    <mat-icon>home</mat-icon>
+  </button>
+  <span class="nav-links">
+    <a mat-button [routerLink]="['/home']">Home</a>
+    <a mat-button [routerLink]="['/books']">Books</a>
+    <a mat-button [routerLink]="['/authors']">Authors</a>
+  </span>
+  <span class="spacer"></span>
+  @if (isLoggedIn) {
+    <button mat-button (click)="authService.logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  }
+  @else {
+    <a mat-button [routerLink]="['/login']">
+      <mat-icon>login</mat-icon>
+      Login
+    </a>
+  }
+</mat-toolbar>

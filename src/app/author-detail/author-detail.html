@@ -1,0 +1,60 @@
+<mat-card>
+  @if (author$ | async; as author) {
+    <mat-card-header>
+      <mat-card-title>{{author.name}}'s Books</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      @if (author.books.length > 0) {
+        <table mat-table [dataSource]="author.books" class="mat-elevation-z2">
+          
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let book">{{book.id}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Title</th>
+            <td mat-cell *matCellDef="let book">{{book.title}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let book">{{book.category}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="publisher">
+            <th mat-header-cell *matHeaderCellDef>Publisher</th>
+            <td mat-cell *matCellDef="let book">{{book.publisher}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let book">{{book.price ? '$' + book.price : '-'}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="publishYear">
+            <th mat-header-cell *matHeaderCellDef>Year</th>
+            <td mat-cell *matCellDef="let book">{{book.publishYear}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      }
+      @else {
+        <p>No books found for this author.</p>
+      }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Authors
+      </button>
+    </mat-card-actions>
+  }
+  @else {
+    <mat-card-content>
+      <p>Loading...</p>
+    </mat-card-content>
+  }
+</mat-card>
