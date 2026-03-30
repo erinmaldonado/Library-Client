@@ -1,6 +1,6 @@
 {
   "buildCommand": "ng build",
-  "outputDirectory": "dist/library-client-dev/browser",
+  "outputDirectory": "dist/Client",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
