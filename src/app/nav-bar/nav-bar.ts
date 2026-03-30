@@ -10,7 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-nav-bar',
   imports: [
-    RouterLink , 
+    RouterLink ,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -25,7 +25,7 @@ export class NavBar  implements OnInit, OnDestroy{
   constructor(public authService: AuthService) {
     authService.authStatus.pipe(takeUntil(this.destroy)).subscribe(status => {
       this.isLoggedIn = status;
-    }); 
+    });
   }
   ngOnInit(): void {
     this.authService.authStatus.subscribe(status => {

@@ -1,21 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../auth/auth-service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home implements OnInit {
-  isAuthenticated: boolean = false;
-  userEmail: string | null = null;  
-
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    const isAuthenticated: boolean = this.authService.isAuthenticated();
-    this.isAuthenticated = isAuthenticated;
-  }
-}
+export class Home {}

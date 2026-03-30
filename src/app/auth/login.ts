@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from './auth-service';
 import { LoginRequest } from './login-request';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, RouterLink, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -16,7 +19,7 @@ export class Login implements OnInit {
     username: FormControl<string | null>;
     password: FormControl<string | null>;
   }>;
-  submitted = false;
+  loginError = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -31,7 +34,7 @@ export class Login implements OnInit {
   get password() { return this.form.controls['password']; }
 
   onSubmit() {
-    this.submitted = true;
+    this.form.markAllAsTouched();
     if (this.form.invalid) return;
 
     const loginRequest: LoginRequest = {
@@ -39,13 +42,8 @@ export class Login implements OnInit {
       password: this.password.value!,
     };
     this.authService.login(loginRequest).subscribe({
-      next: result => {
-        console.log('Login successful', result);
-        this.router.navigate(['/']);
-      },
-      error: error => {
-        console.log('Login failed', error);
-      },
+      next: () => this.router.navigate(['/']),
+      error: () => this.loginError = 'Invalid email or password.',
     });
   }
 }

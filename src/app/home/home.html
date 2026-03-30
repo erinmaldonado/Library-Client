@@ -1,9 +1,30 @@
 <div class="home-container">
-  @if (isAuthenticated) {
-    <h1>Welcome!</h1>
-  } @else {
-    <h1>Welcome!</h1>
-    <p class="welcome-message">You are not logged in.</p>
-    <p>Please <a [routerLink]="['/login']">log in</a> to access your book collection.</p>
-  }
+  <div class="hero">
+    <h1 class="mat-headline-large">Welcome to the Library</h1>
+    <p class="mat-body-large">Browse and manage your collection of books and authors.</p>
+  </div>
+
+  <div class="nav-cards">
+    <mat-card appearance="outlined" class="nav-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>menu_book</mat-icon>
+        <mat-card-title>Books</mat-card-title>
+        <mat-card-content>Browse and search the book catalogue</mat-card-content>
+      </mat-card-header>
+      <mat-card-actions>
+        <a mat-flat-button routerLink="/books">Go to Books</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="nav-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>people</mat-icon>
+        <mat-card-title>Authors</mat-card-title>
+        <mat-card-subtitle>View author profiles and their works</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <a mat-flat-button routerLink="/authors">Go to Authors</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>

@@ -42,8 +42,17 @@
   margin-bottom: 4px;
 }
 
-.login-error {
+.success-message {
+  color: var(--mat-sys-primary);
+  margin-bottom: 16px;
+}
+
+.server-errors {
   color: var(--mat-sys-error);
   font-size: 0.875rem;
-  margin: 0 0 8px;
+  margin-bottom: 8px;
+
+  p {
+    margin: 0 0 4px;
+  }
 }
