@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>{{ data.mode === 'add' ? 'Add Book' : 'Edit Book' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="book-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+      <mat-error>Title is required.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <input matInput formControlName="category">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Publisher</mat-label>
+        <input matInput formControlName="publisher">
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price" min="0">
+        @if (price.errors?.['min']) {
+          <mat-error>Price must be 0 or greater.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Publish Month</mat-label>
+        <mat-select formControlName="publishMonth">
+          <mat-option value="">—</mat-option>
+          @for (m of months; track m) {
+            <mat-option [value]="m">{{ m }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Publish Year</mat-label>
+        <input matInput type="number" formControlName="publishYear">
+        @if (publishYear.errors?.['min'] || publishYear.errors?.['max']) {
+          <mat-error>Enter a valid year.</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Author</mat-label>
+      <mat-select formControlName="authorId">
+        @for (a of authors; track a.id) {
+          <mat-option [value]="a.id">{{ a.name }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>Author is required.</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button (click)="save()">Save</button>
+</mat-dialog-actions>

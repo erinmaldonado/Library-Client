@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ data.mode === 'add' ? 'Add Author' : 'Edit Author' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="author-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error>Name is required.</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button (click)="save()">Save</button>
+</mat-dialog-actions>

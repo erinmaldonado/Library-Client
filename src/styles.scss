@@ -20,3 +20,24 @@ body {
 }
 
 html, body { height: 100%; }
+
+// Dialog form layout
+.full-width { width: 100%; }
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1 1 140px;
+  }
+}
+
+.book-form,
+.author-form {
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+  min-width: 300px;
+}
