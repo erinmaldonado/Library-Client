@@ -30,7 +30,7 @@
         <mat-label>Price</mat-label>
         <input matInput type="number" formControlName="price" min="0">
         @if (price.errors?.['min']) {
-          <mat-error>Price must be 0 or greater.</mat-error>
+        <mat-error>Price must be 0 or greater.</mat-error>
         }
       </mat-form-field>
 
@@ -39,7 +39,7 @@
         <mat-select formControlName="publishMonth">
           <mat-option value="">—</mat-option>
           @for (m of months; track m) {
-            <mat-option [value]="m">{{ m }}</mat-option>
+          <mat-option [value]="m">{{ m }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -48,19 +48,22 @@
         <mat-label>Publish Year</mat-label>
         <input matInput type="number" formControlName="publishYear">
         @if (publishYear.errors?.['min'] || publishYear.errors?.['max']) {
-          <mat-error>Enter a valid year.</mat-error>
+        <mat-error>Enter a valid year.</mat-error>
         }
       </mat-form-field>
     </div>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Author</mat-label>
-      <mat-select formControlName="authorId">
-        @for (a of authors; track a.id) {
-          <mat-option [value]="a.id">{{ a.name }}</mat-option>
+      <input matInput [formControl]="authorSearch" [matAutocomplete]="auto" placeholder="Search authors...">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectAuthor($event.option.value)">
+        @for (a of filteredAuthors | async; track a.id) {
+        <mat-option [value]="a">{{ a.name }}</mat-option>
         }
-      </mat-select>
+      </mat-autocomplete>
+      @if (authorId.touched && authorId.errors?.['required']) {
       <mat-error>Author is required.</mat-error>
+      }
     </mat-form-field>
   </form>
 </mat-dialog-content>
