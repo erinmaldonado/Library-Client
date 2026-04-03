@@ -2,6 +2,13 @@
   "buildCommand": "ng build",
   "outputDirectory": "dist/Client/browser",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/api/:path*",
+      "destination": "http://library-server-prod.eba-mimkqn4b.us-west-1.elasticbeanstalk.com/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
