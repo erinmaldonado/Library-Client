@@ -11,8 +11,6 @@ export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'login', component: Login },
     { path: 'register', component: Register },
-
-
     { path: 'home', component: Home, canActivate: [authGuard] },
     { path: 'authors', component: Authors, canActivate: [authGuard] },
     { path: 'authors/:id', component: AuthorDetail, canActivate: [authGuard] },

@@ -47,9 +47,9 @@ export class Books implements OnInit {
     });
     ref.afterClosed().subscribe(result => {
       if (result) {
-        this.bookService.createBook(result).subscribe(newBook => {
-          this.dataSource.data = [...this.dataSource.data, newBook];
-        });
+        this.bookService.createBook(result).subscribe(() => {
+        this.load();
+    });
       }
     });
   }
@@ -63,7 +63,7 @@ export class Books implements OnInit {
       if (result) {
         const updated = { ...result, id: book.id };
         this.bookService.updateBook(book.id, updated).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.map(b => b.id === book.id ? updated : b);
+          this.load();
         });
       }
     });
@@ -76,7 +76,7 @@ export class Books implements OnInit {
     ref.afterClosed().subscribe(confirmed => {
       if (confirmed) {
         this.bookService.deleteBook(book.id).subscribe(() => {
-          this.dataSource.data = this.dataSource.data.filter(b => b.id !== book.id);
+          this.load();
         });
       }
     });
