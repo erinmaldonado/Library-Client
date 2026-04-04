@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
@@ -9,11 +10,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { BookService, Book } from './book-service';
 import { BookForm, BookFormData } from './book-form/book-form';
 import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
+import { AuthService } from '../auth/auth-service';
+import { LoanService } from '../loans/loan-service';
+import { BorrowDialog } from '../loans/borrow-dialog/borrow-dialog';
 
 @Component({
   selector: 'app-books',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     MatTableModule,
     MatSortModule,
@@ -26,13 +31,25 @@ import { ConfirmDialog } from '../shared/confirm-dialog/confirm-dialog';
 })
 export class Books implements OnInit {
   dataSource = new MatTableDataSource<Book>();
-  displayedColumns: string[] = [
-    'id', 'title', 'authorName', 'category', 'publisher', 'price', 'publishYear', 'actions',
-  ];
+  isAdmin = false;
+  userId = '';
 
-  constructor(private bookService: BookService, private dialog: MatDialog) {}
+  get displayedColumns(): string[] {
+    return this.isAdmin
+      ? ['id', 'title', 'authorName', 'category', 'publisher', 'price', 'publishYear', 'actions']
+      : ['id', 'title', 'authorName', 'category', 'publisher', 'price', 'publishYear', 'borrow'];
+  }
+
+  constructor(
+    private bookService: BookService,
+    private loanService: LoanService,
+    private authService: AuthService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+    this.userId = this.authService.getUserId() ?? '';
     this.load();
   }
 
@@ -46,11 +63,7 @@ export class Books implements OnInit {
       width: '600px',
     });
     ref.afterClosed().subscribe(result => {
-      if (result) {
-        this.bookService.createBook(result).subscribe(() => {
-        this.load();
-    });
-      }
+      if (result) this.bookService.createBook(result).subscribe(() => this.load());
     });
   }
 
@@ -61,10 +74,7 @@ export class Books implements OnInit {
     });
     ref.afterClosed().subscribe(result => {
       if (result) {
-        const updated = { ...result, id: book.id };
-        this.bookService.updateBook(book.id, updated).subscribe(() => {
-          this.load();
-        });
+        this.bookService.updateBook(book.id, { ...result, id: book.id }).subscribe(() => this.load());
       }
     });
   }
@@ -74,10 +84,18 @@ export class Books implements OnInit {
       data: { title: 'Delete Book', message: `Delete "${book.title}"? This cannot be undone.` },
     });
     ref.afterClosed().subscribe(confirmed => {
-      if (confirmed) {
-        this.bookService.deleteBook(book.id).subscribe(() => {
-          this.load();
-        });
+      if (confirmed) this.bookService.deleteBook(book.id).subscribe(() => this.load());
+    });
+  }
+
+  openBorrow(book: Book): void {
+    const ref = this.dialog.open(BorrowDialog, {
+      data: { book },
+      width: '400px',
+    });
+    ref.afterClosed().subscribe(dueDate => {
+      if (dueDate) {
+        this.loanService.createLoan(book.id, this.userId, dueDate).subscribe();
       }
     });
   }

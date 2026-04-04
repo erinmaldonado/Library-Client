@@ -1,0 +1,91 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{ isAdmin ? 'All Loans' : 'My Library' }}</mat-card-title>
+    </mat-card-header>
+
+    <!-- Admin toolbar -->
+    <div class="table-toolbar" *ngIf="isAdmin">
+        <mat-form-field appearance="outline">
+            <mat-label>Filter by User</mat-label>
+            <mat-select [(ngModel)]="filterUser" (ngModelChange)="applyFilters()">
+                <mat-option value="">All Users</mat-option>
+                <mat-option *ngFor="let u of uniqueUsers" [value]="u">{{ u }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Filter by Status</mat-label>
+            <mat-select [(ngModel)]="filterStatus" (ngModelChange)="applyFilters()">
+                <mat-option value="">All</mat-option>
+                <mat-option value="Active">Active</mat-option>
+                <mat-option value="Overdue">Overdue</mat-option>
+                <mat-option value="Returned">Returned</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-stroked-button (click)="clearFilters()">
+            <mat-icon>clear</mat-icon> Clear
+        </button>
+
+        <button mat-flat-button color="warn" (click)="markOverdue()">
+            <mat-icon>schedule</mat-icon> Mark Overdue
+        </button>
+    </div>
+
+    <mat-card-content>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+            <ng-container matColumnDef="bookTitle">
+                <th mat-header-cell *matHeaderCellDef>Book</th>
+                <td mat-cell *matCellDef="let loan">{{ loan.bookTitle }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="userEmail">
+                <th mat-header-cell *matHeaderCellDef>User</th>
+                <td mat-cell *matCellDef="let loan">{{ loan.userEmail }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="loanDate">
+                <th mat-header-cell *matHeaderCellDef>Borrowed</th>
+                <td mat-cell *matCellDef="let loan">{{ loan.loanDate | date:'mediumDate' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="dueDate">
+                <th mat-header-cell *matHeaderCellDef>Due</th>
+                <td mat-cell *matCellDef="let loan">{{ loan.dueDate | date:'mediumDate' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let loan">
+                    <mat-icon [color]="getStatusColor(loan.status)">
+                        {{ loan.status === 'Returned' ? 'check_circle' : loan.status === 'Overdue' ? 'warning' : 'book'
+                        }}
+                    </mat-icon>
+                    {{ loan.status }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let loan" class="actions-cell">
+                    <button mat-icon-button color="primary" (click)="returnLoan(loan)"
+                        [disabled]="loan.status === 'Returned'" aria-label="Return book">
+                        <mat-icon>assignment_return</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteLoan(loan)" aria-label="Delete loan">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+        <p *ngIf="dataSource.data.length === 0" class="empty-msg">
+            {{ isAdmin ? 'No loans found.' : 'You have no borrowed books.' }}
+        </p>
+    </mat-card-content>
+</mat-card>

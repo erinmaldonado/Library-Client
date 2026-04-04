@@ -1,0 +1,25 @@
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    flex-wrap: wrap;
+}
+
+table {
+    width: 100%;
+}
+
+.actions-cell {
+    white-space: nowrap;
+}
+
+.empty-msg {
+    text-align: center;
+    padding: 32px;
+    color: gray;
+}
+
+mat-form-field {
+    min-width: 160px;
+}

@@ -3,7 +3,7 @@
     <mat-card-title>Books</mat-card-title>
   </mat-card-header>
 
-  <div class="table-toolbar">
+  <div class="table-toolbar" *ngIf="isAdmin">
     <button mat-flat-button (click)="openAdd()">
       <mat-icon>add</mat-icon> Add Book
     </button>
@@ -47,14 +47,21 @@
         <td mat-cell *matCellDef="let book">{{ book.publishYear }}</td>
       </ng-container>
 
+      <!-- Admin actions -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let book" class="actions-cell">
-          <button mat-icon-button (click)="openEdit(book)" aria-label="Edit book">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button (click)="openDelete(book)" aria-label="Delete book">
-            <mat-icon>delete</mat-icon>
+          <button mat-icon-button (click)="openEdit(book)"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button (click)="openDelete(book)"><mat-icon>delete</mat-icon></button>
+        </td>
+      </ng-container>
+
+      <!-- User borrow button -->
+      <ng-container matColumnDef="borrow">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let book">
+          <button mat-stroked-button color="primary" (click)="openBorrow(book)">
+            <mat-icon>book</mat-icon> Borrow
           </button>
         </td>
       </ng-container>

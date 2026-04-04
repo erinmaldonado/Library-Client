@@ -9,29 +9,26 @@ import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [
-    RouterLink ,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule
-  ],
+  imports: [RouterLink, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule],
   templateUrl: './nav-bar.html',
   styleUrl: './nav-bar.scss',
 })
-export class NavBar  implements OnInit, OnDestroy{
+export class NavBar implements OnInit, OnDestroy {
   private destroy = new Subject();
   isLoggedIn!: boolean;
+  isAdmin!: boolean;
+
   constructor(public authService: AuthService) {
     authService.authStatus.pipe(takeUntil(this.destroy)).subscribe(status => {
       this.isLoggedIn = status;
+      this.isAdmin = this.authService.isAdmin();
     });
   }
+
   ngOnInit(): void {
-    this.authService.authStatus.subscribe(status => {
-      this.isLoggedIn = status;
-    });
+    this.isAdmin = this.authService.isAdmin();
   }
+
   ngOnDestroy(): void {
     this.destroy.next(true);
     this.destroy.complete();
