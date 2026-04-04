@@ -6,7 +6,6 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { jwtDecode } from 'jwt-decode';
-
 interface JwtPayload {
   'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string | string[];
   'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier': string;
