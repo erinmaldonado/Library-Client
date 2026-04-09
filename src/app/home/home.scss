@@ -1,25 +1,307 @@
-.home-container {
-  max-width: 800px;
-  margin: 48px auto;
-  padding: 0 16px;
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
 }
 
-.hero {
-  text-align: center;
-  margin-bottom: 40px;
+// Header
+.dashboard-header {
+  margin-bottom: 32px;
+
+  .greeting {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+
+    .accent {
+      color: #7c6af7;
+    }
+  }
+
+  .date {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 4px;
+  }
 }
 
-.nav-cards {
+// Stats
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+
+  .stat-card {
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    min-height: 90px;
+
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    &.books {
+      background: #1a1f3c;
+    }
+
+    &.authors {
+      background: #1f1a3c;
+    }
+
+    &.loans {
+      background: #1a2e3c;
+    }
+
+    &.overdue {
+      background: #3c1a1a;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &.books .stat-icon {
+      background: rgba(100, 120, 255, 0.15);
+
+      mat-icon {
+        color: #6478ff;
+      }
+    }
+
+    &.authors .stat-icon {
+      background: rgba(150, 100, 255, 0.15);
+
+      mat-icon {
+        color: #9664ff;
+      }
+    }
+
+    &.loans .stat-icon {
+      background: rgba(100, 200, 255, 0.15);
+
+      mat-icon {
+        color: #64c8ff;
+      }
+    }
+
+    &.overdue .stat-icon {
+      background: rgba(255, 100, 100, 0.15);
+
+      mat-icon {
+        color: #ff6464;
+      }
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 4px;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Body layout
+.dashboard-body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
   gap: 24px;
 }
 
-.nav-card {
-  mat-icon[mat-card-avatar] {
-    width: 40px;
-    height: 40px;
+// Panel
+.panel {
+  background: #13131f;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 24px;
+
+  .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+  }
+}
+
+// Books grid
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  .book-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 10px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .book-cover {
+      width: 44px;
+      height: 60px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      mat-icon {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .book-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 6px;
+    }
+
+    .book-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(124, 106, 247, 0.2);
+      color: #7c6af7;
+    }
+  }
+}
+
+// Actions list
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .action-item {
     display: flex;
     align-items: center;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .action-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      mat-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+      }
+
+      &.books {
+        background: rgba(100, 120, 255, 0.15);
+
+        mat-icon {
+          color: #6478ff;
+        }
+      }
+
+      &.authors {
+        background: rgba(150, 100, 255, 0.15);
+
+        mat-icon {
+          color: #9664ff;
+        }
+      }
+
+      &.loans {
+        background: rgba(100, 200, 255, 0.15);
+
+        mat-icon {
+          color: #64c8ff;
+        }
+      }
+    }
+
+    .action-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .action-sub {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .action-arrow {
+      margin-left: auto;
+      color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-body {
+    grid-template-columns: 1fr;
+  }
+
+  .books-grid {
+    grid-template-columns: 1fr;
   }
 }

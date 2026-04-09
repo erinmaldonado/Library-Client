@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavBar } from './nav-bar/nav-bar';
+import { AuthService } from './auth/auth-service';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +11,8 @@ import { NavBar } from './nav-bar/nav-bar';
 })
 export class App {
   protected readonly title = signal('Client');
+  constructor(private authService: AuthService){
+    this.authService.init();
+  }
   
 }

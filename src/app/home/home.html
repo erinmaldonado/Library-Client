@@ -1,30 +1,100 @@
-<div class="home-container">
-  <div class="hero">
-    <h1 class="mat-headline-large">Welcome to the Library</h1>
-    <p class="mat-body-large">Browse and manage your collection of books and authors.</p>
+<div class="dashboard">
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <div class="greeting">Hello, <span class="accent">{{ userName }}!</span></div>
+      <div class="date">{{ today | date:'EEEE, MMMM d, y' }}</div>
+    </div>
   </div>
 
-  <div class="nav-cards">
-    <mat-card appearance="outlined" class="nav-card">
-      <mat-card-header>
-        <mat-icon mat-card-avatar>menu_book</mat-icon>
-        <mat-card-title>Books</mat-card-title>
-        <mat-card-content>Browse and search the book catalogue</mat-card-content>
-      </mat-card-header>
-      <mat-card-actions>
-        <a mat-flat-button routerLink="/books">Go to Books</a>
-      </mat-card-actions>
-    </mat-card>
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card books">
+      <div class="stat-icon"><mat-icon>menu_book</mat-icon></div>
+      <div class="stat-info">
+        <div class="stat-value">{{ bookCount }}</div>
+        <div class="stat-label">Total Books</div>
+      </div>
+    </div>
+    <div class="stat-card authors">
+      <div class="stat-icon"><mat-icon>person</mat-icon></div>
+      <div class="stat-info">
+        <div class="stat-value">{{ authorCount }}</div>
+        <div class="stat-label">Authors</div>
+      </div>
+    </div>
+    <div class="stat-card loans">
+      <div class="stat-icon"><mat-icon>bookmark</mat-icon></div>
+      <div class="stat-info">
+        <div class="stat-value">{{ loanCount }}</div>
+        <div class="stat-label">{{ isAdmin ? 'Total Loans' : 'My Loans' }}</div>
+      </div>
+    </div>
+    <div class="stat-card overdue">
+      <div class="stat-icon"><mat-icon>warning</mat-icon></div>
+      <div class="stat-info">
+        <div class="stat-value">{{ overdueCount }}</div>
+        <div class="stat-label">Overdue</div>
+      </div>
+    </div>
+  </div>
 
-    <mat-card appearance="outlined" class="nav-card">
-      <mat-card-header>
-        <mat-icon mat-card-avatar>people</mat-icon>
-        <mat-card-title>Authors</mat-card-title>
-        <mat-card-subtitle>View author profiles and their works</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-actions>
-        <a mat-flat-button routerLink="/authors">Go to Authors</a>
-      </mat-card-actions>
-    </mat-card>
+  <!-- Two column layout -->
+  <div class="dashboard-body">
+
+    <!-- Recent Books -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Recent Books</span>
+        <a mat-button routerLink="/books">See All</a>
+      </div>
+      <div class="books-grid">
+        <div class="book-item" *ngFor="let book of recentBooks" (click)="goToBooks()">
+          <div class="book-cover" [style.background]="getCoverColor(book.category)">
+            <mat-icon>menu_book</mat-icon>
+          </div>
+          <div class="book-info">
+            <div class="book-title">{{ book.title }}</div>
+            <div class="book-author">{{ book.authorName }}</div>
+            <div class="book-tag">{{ book.category }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Quick Actions</span>
+      </div>
+      <div class="actions-list">
+        <a routerLink="/books" class="action-item">
+          <div class="action-icon books"><mat-icon>menu_book</mat-icon></div>
+          <div class="action-info">
+            <div class="action-title">Browse Books</div>
+            <div class="action-sub">Search the full catalogue</div>
+          </div>
+          <mat-icon class="action-arrow">chevron_right</mat-icon>
+        </a>
+        <a routerLink="/authors" class="action-item">
+          <div class="action-icon authors"><mat-icon>people</mat-icon></div>
+          <div class="action-info">
+            <div class="action-title">Authors</div>
+            <div class="action-sub">Explore author profiles</div>
+          </div>
+          <mat-icon class="action-arrow">chevron_right</mat-icon>
+        </a>
+        <a routerLink="/loans" class="action-item">
+          <div class="action-icon loans"><mat-icon>bookmark</mat-icon></div>
+          <div class="action-info">
+            <div class="action-title">{{ isAdmin ? 'Manage Loans' : 'My Library' }}</div>
+            <div class="action-sub">{{ isAdmin ? 'View all borrowing activity' : 'Your borrowed books' }}</div>
+          </div>
+          <mat-icon class="action-arrow">chevron_right</mat-icon>
+        </a>
+      </div>
+    </div>
+
   </div>
 </div>
