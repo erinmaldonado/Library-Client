@@ -9,6 +9,7 @@ import { BookService, Book } from '../books/book-service';
 import { AuthorService } from '../authors/author-service';
 import { LoanService } from '../loans/loan-service';
 import { AuthService } from '../auth/auth-service';
+import { filter, take } from 'rxjs/operators'; 
 
 @Component({
   selector: 'app-home',
@@ -44,17 +45,21 @@ export class Home implements OnInit {
     private router: Router
   ) {}
 
-   ngOnInit(): void {
-  this.authService.authStatus.subscribe(isLoggedIn => {
-    if (!isLoggedIn) return;
-    
+
+  ngOnInit(): void {
+    this.authService.authStatus.pipe(
+    filter(isLoggedIn => isLoggedIn === true),
+    take(1)
+  ).subscribe(() => {
     this.isAdmin = this.authService.isAdmin();
+
     const token = this.authService.getToken();
     if (token) {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const email = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
       this.userName = email?.split('@')[0] ?? 'there';
     }
+
 
     forkJoin({
       bookCount: this.bookService.getBooksCount(),
